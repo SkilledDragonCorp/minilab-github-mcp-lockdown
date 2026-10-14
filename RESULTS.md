@@ -1,6 +1,6 @@
 # Results
 
-Local ship gate recorded **2026-10-14** (keyless lab suite + upstream Go pin).
+Local ship gate recorded **2026-10-14** (keyless lab suite + upstream binary build at pin).
 
 - Python `3.14.7` · `ruff 0.17.0` · `pytest 9.1.1` · Go `1.26.8`
 - Upstream pin `c59e8c199efbf14467211861de44afaeeb6873e3` (`main@c59e8c199efb`)
@@ -14,7 +14,8 @@ Local ship gate recorded **2026-10-14** (keyless lab suite + upstream Go pin).
 | `python3 scripts/check-skills` | **pass** | skills-layout OK |
 | `python3 scripts/check-banned-phrases` | **pass** | banned-phrases OK |
 | `python3 scripts/check-upstream-parity` | **pass** | upstream-parity OK |
-| `bash scripts/upstream-github-mcp.sh` | **pass** | `script/test` + `go build -v ./cmd/github-mcp-server`; `bin/github-mcp-server` present |
+| `go build -v ./cmd/github-mcp-server` at pin | **pass** | `bin/github-mcp-server` present |
+| `script/test` / `go test -race ./...` | **CI** | Ubuntu `upstream` job runs `script/test` verbatim; Darwin local -race on `pkg/github` exceeds default/45m package timeout |
 
 Pytest: **10 passed**.
 
