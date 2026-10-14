@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""Assert scripts/upstream-github-mcp.sh embeds the pin keyless go.yml commands."""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPT = ROOT / "scripts" / "upstream-github-mcp.sh"
+PIN = "c59e8c199efbf14467211861de44afaeeb6873e3"
+
+REQUIRED_SNIPPETS = (
+    "script/test",
+    "go test -race",
+    "go build -v ./cmd/github-mcp-server",
+    PIN,
+)
+
+
+def main() -> int:
+    if not SCRIPT.is_file():
+        print(f"missing {SCRIPT}", file=sys.stderr)
+        return 1
+    text = SCRIPT.read_text(encoding="utf-8")
+    missing = [s for s in REQUIRED_SNIPPETS if s not in text]
+    if missing:
+        print("upstream-parity missing snippets:", file=sys.stderr)
+        for item in missing:
+            print(f"  - {item!r}", file=sys.stderr)
+        return 1
+    for line in text.splitlines():
+        if line.strip().startswith("#"):
+            continue
+        if "GITHUB_PERSONAL_ACCESS_TOKEN" in line:
+            print("upstream script must not require a live token", file=sys.stderr)
+            return 1
+    print("upstream-parity OK")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
