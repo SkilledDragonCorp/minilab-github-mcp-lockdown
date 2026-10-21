@@ -1,0 +1,63 @@
+{
+  "lab": "minilab-github-mcp-lockdown",
+  "sha": "3099e41d2bbfe83212eb2299677f63e6a3969204",
+  "sha_short": "3099e41",
+  "pin": "c59e8c199efbf14467211861de44afaeeb6873e3",
+  "pin_short": "c59e8c199efb",
+  "upstream": "github/github-mcp-server",
+  "keyless": true,
+  "generated_at": "2026-10-14T05:48:44Z",
+  "host": "darwin",
+  "note": "Local keyless macOS lab suite + go build binary. Upstream go test -race ./... ran in GitHub Actions job upstream (Linux); Darwin local -race on pkg/github exceeds package timeout per RESULTS.md.",
+  "checks": {
+    "uv_sync": "pass",
+    "ruff_check": "pass",
+    "ruff_format": "pass",
+    "pytest": {
+      "passed": 10,
+      "failed": 0
+    },
+    "check_skills": "pass",
+    "check_banned_phrases": "pass",
+    "check_upstream_parity": "pass",
+    "go_build": "pass",
+    "go_test_race": "CI",
+    "cli_lockdown_json": {
+      "lockdown_cli": "--lockdown-mode",
+      "lockdown_env": "GITHUB_LOCKDOWN_MODE",
+      "read_only_cli": "--read-only",
+      "read_only_env": "GITHUB_READ_ONLY",
+      "http_lockdown_header": "X-MCP-Lockdown",
+      "mentions_not_auth_boundary": true,
+      "trusted_bots": [
+        "copilot",
+        "github-actions[bot]"
+      ]
+    }
+  },
+  "ci": {
+    "run_id": 38516179909,
+    "url": "https://github.com/SkilledDragonCorp/minilab-github-mcp-lockdown/actions/runs/38516179909",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3099e41d2bbfe83212eb2299677f63e6a3969204",
+    "jobs": {
+      "lab": {
+        "conclusion": "success",
+        "duration_s": 10
+      },
+      "security": {
+        "conclusion": "success",
+        "duration_s": 17
+      },
+      "upstream": {
+        "conclusion": "success",
+        "duration_s": 293
+      }
+    }
+  },
+  "upstream_steps": [
+    "script/test (= go test -race ./...)",
+    "go build -v ./cmd/github-mcp-server"
+  ]
+}
